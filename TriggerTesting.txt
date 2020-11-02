@@ -1,0 +1,238 @@
+Trigger testing
+
+Trigger: check_RiderSalary 
+constraint: For rider salary < 0
+
+delete from rider where rid = 99;
+insert into rider (rid, rname, isfulltime, salary) values (99,'rname1','f',-1);
+
+Expected result: Salary must not be negative!
+
+Trigger:checkRestaurantMinAmnt
+Constraint: restaurant minimum amount cannot be negative
+
+update restaurant set minamnt = -11 where restid = 1;
+
+Expected result: Min amount must not be negative !
+
+Trigger: check_PromoDate
+Constraint: promo percentage cannot exceed 100% and the end date of promo cannot be before promo start date
+
+insert into promo (restid, promodesc, promovalue, promotype, promostartdate, promoenddate, promocode)
+values(1,'desc1', 101, 'Percentage', '2020-05-30 10:00:00', '2020-05-30 14:00:00', 'aaa');
+
+Expected result: Promo percentage cannot exceed 100 percent!!
+
+insert into promo (restid, promodesc, promovalue, promotype, promostartdate, promoenddate, promocode)
+values(1,'desc1', 50, 'Percentage', '2020-05-30 10:00:00', '2020-05-29 14:00:00', 'aaa');
+
+Expected result: promo end date cannot be before promo start date!
+
+Trigger: check_OrderItemListQuantity
+Constraint: Order line item quantity cannot be <= 0
+
+update orderitemlist set orderquantity = -1 where lineid = 1;
+
+Expected value: order quantity cannot be negative or zero!
+
+Trigger: check_ReviewRating
+Constraint: Rating must be within 1 to 5
+
+update review set riderrating = -1 where reviewid = 1;
+
+Expected value: Rating must be within 1 to 5!
+
+update review set restaurantrating = 6 where reviewid = 1;
+
+Expected value: Rating must be within 1 to 5!
+
+Trigger: check_FTWWSLimit
+Constraint: Each mwsid can only have maximum 20 wwsid
+
+insert into wws(mwsid, wwsdate, wwsstarttime, wwsendtime, wwsstarttimetwo, wwsendtimetwo)
+values (1, '2020-05-30', '2020-05-30 10:00:00', '2020-05-30 14:00:00', '2020-05-30 15:00:00', '2020-05-30 19:00:00');
+
+Expected result: mwsid 1 already have 20 wws!
+
+
+Trigger: check_FTWWSDATE
+Constraint: end date cannot be before starting date
+
+delete from wws where wwsid = 20;
+
+insert into wws(mwsid, wwsdate, wwsstarttime, wwsendtime, wwsstarttimetwo, wwsendtimetwo)
+values (1, '2020-05-29', '2020-05-29 10:00:00', '2020-05-29 09:00:00', '2020-05-29 15:00:00', '2020-05-29 19:00:00');
+
+Expected result: 2020-05-29 09:00:00 is before 2020-05-29 10:00:00!
+
+insert into wws(mwsid, wwsdate, wwsstarttime, wwsendtime, wwsstarttimetwo, wwsendtimetwo)
+values (1, '2020-05-29', '2020-05-29 10:00:00', '2020-05-29 14:00:00', '2020-05-29 16:00:00', '2020-05-29 15:00:00');
+
+Expected result: 2020-05-29 15:00:00 is before 2020-05-29 16:00:00!
+
+insert into wws(mwsid, wwsdate, wwsstarttime, wwsendtime, wwsstarttimetwo, wwsendtimetwo)
+values (1, '2020-05-29', '2020-05-29 10:00:00', '2020-05-29 14:00:00', '2020-05-29 13:00:00', '2020-05-29 19:00:00');
+
+Expected result: 2020-05-29 13:00:00 is before 2020-05-29 14:00:00!
+
+
+
+
+Trigger: check_PTWWSLIMIT
+Constraint: Each ptwwsid can only have maximum 7 ptdayscheduleid
+
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime)
+values(1, '2020-05-09', '2020-05-09 10:00:00', '2020-05-09 14:00:00');
+
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime)
+values(1, '2020-05-10', '2020-05-10 10:00:00', '2020-05-10 14:00:00');
+
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime)
+values(1, '2020-05-11', '2020-05-11 10:00:00', '2020-05-11 14:00:00');
+
+Expected result: Third insert will prompt exception. ptwwsid 1 already have 7 days!
+
+
+Trigger: check_PTWWSDate
+Constraint: end date cannot be before starting date
+
+Checking: ptwwsendtime < ptwwsstarttime
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime)
+values(1, '2020-05-03', '2020-05-03 11:00:00', '2020-05-03 10:00:00');
+
+Expected result: 2020-05-03 10:00:00 is before 2020-05-03 11:00:00!
+
+Checking: ptwwsendtimetwo < ptwwsstarttimetwo
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 13:00:00', '2020-05-03 12:00:00');
+
+Expected result: 2020-05-03 12:00:00 is before 2020-05-03 13:00:00!
+
+Checking: ptwwsendtimethree < ptwwsstarttimethree
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 15:00:00', '2020-05-03 14:00:00');
+
+Expected result: 2020-05-03 14:00:00 is before 2020-05-03 15:00:00!
+
+Checking: ptwwsstarttimetwo < ptwwsendtime
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 10:00:00', '2020-05-03 13:00:00', '2020-05-03 14:00:00', '2020-05-03 15:00:00');
+
+Expected result: start time two is before end time one
+
+Checking: ptwwsstarttimethree, ptwwsendtimetwo
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 12:00:00', '2020-05-03 15:00:00');
+
+Expected result: start time three is before end time two
+
+Checking: ptwwsstarttimethree, ptwwsendtime
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 10:00:00', '2020-05-03 15:00:00');
+
+Expected result: start time three is before end time two
+
+Checking: ptwwsstarttimethree = ptwwsendtimethree
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 14:00:00', '2020-05-03 14:00:00');
+
+Expected result: start time cannot be end time
+Comment: Will be same for starttime = endtime, starttimetwo = endtimetwo
+
+Checking: ptwwsstarttime contains value but ptwwsendtime contains no value
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime)
+values(1, '2020-05-03', '2020-05-03 11:00:00');
+
+Expected result: end time value is not entered!
+
+Checking: ptwwsstarttimetwo contains value but ptwwsendtimetwo contains no value
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 13:00:00');
+
+Expected result: end time value is not entered!
+
+Checking: ptwwsstarttimethree contains value but ptwwsendtimethree contains no value
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 15:00:00');
+
+Expected result: end time value is not entered!
+
+
+Trigger: check_PTWWSMAXWORKTIME
+Constraint: Total hours for ptdayscheduleid for each ptwwsid must not exceed 48 hours
+
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 14:00:00', '2020-05-03 15:00:00', '2020-05-03 19:00:00', '2020-05-03 20:00:00', '2020-05-03 22:00:00');
+
+Expected result: 50 is more than 48
+
+
+Trigger: check_PTWWSMAXWORKTIMEINTERVAL
+Constraints: Max working hour per shift = 4. Between shift, break hour >= 1
+
+Checking: Shift 1 exceed 4 hours
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 15:00:00', '2020-05-03 16:00:00', '2020-05-03 17:00:00', '2020-05-03 18:00:00', '2020-05-03 19:00:00');
+
+Expected: 5 is more than 4 at shift 1
+
+Checking: Shift 2 exceed 4 hours
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 17:00:00', '2020-05-03 18:00:00', '2020-05-03 19:00:00');
+
+Expected: 5 is more than 4 at shift 2
+
+Checking: Shift 3 exceed 4 hours
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 14:00:00', '2020-05-03 19:00:00');
+
+Expected: 5 is more than 4 at shift 3
+
+Checking: shift 1 and shift 2. no 1 hour break
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 11:00:00', '2020-05-03 13:00:00', '2020-05-03 14:00:00', '2020-05-03 15:00:00');
+
+Expected result: Please ensure there is minimum of 1 hour
+
+Checking: shift 2 and shift 3. no 1 hour break
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 13:00:00', '2020-05-03 15:00:00');
+
+Expected result: Please ensure there is minimum of 1 hour
+
+
+Trigger: check_PTWWSOPERATIONTIME
+Constraints: Working time cannot contain minutes or seconds
+
+Checking: minutes
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:01:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 14:00:00', '2020-05-03 15:00:00');
+
+Expected result: Time cannot contain minutes!
+
+Checking: seconds
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 10:00:01', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 14:00:00', '2020-05-03 15:00:00');
+
+Expected result: Time cannot contain seconds!
+
+Checking: starting time
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime, ptwwsstarttimetwo, ptwwsendtimetwo, ptwwsstarttimethree, ptwwsendtimethree)
+values(1, '2020-05-03', '2020-05-03 09:00:00', '2020-05-03 11:00:00', '2020-05-03 12:00:00', '2020-05-03 13:00:00', '2020-05-03 14:00:00', '2020-05-03 15:00:00');
+
+Expected result: Starting time must be after 10:00:00
+
+Checking Ending time
+insert into ptdayschedule (ptwwsid, ptwwsdate, ptwwsstarttime, ptwwsendtime)
+values(1, '2020-05-03', '2020-05-03 21:00:00', '2020-05-03 23:00:00');
+
+Expected result: Starting time must be before 22:00:00
+
+
+Trigger: check_FoodLimit
+Constraint: ordercounter cannot be more than dailylimit
+
+update fooditem set ordercounter = 100 where foodid = 1;
+
+Expected result: Exceed food limit!
+

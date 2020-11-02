@@ -1,0 +1,94 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="StaffSite.Master.cs" Inherits="FDSApplication.Site" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>CS2102 Project Group 23</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">CS2102 Project Group 23</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="StaffIndex.aspx">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="StaffProfile.aspx">Profile</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStaff" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Staff</a>
+                        <div class="dropdown-menu">
+                            <h6 class="dropdown-header font-weight-bold">Restaurant</h6>
+                            <a class="dropdown-item" href="StaffViewRestaurantReview.aspx">View Restaurant Review</a>
+                            <div class="dropdown-divider"></div>
+
+                            <h6 class="dropdown-header font-weight-bold">Food Item</h6>
+                            <a class="dropdown-item" href="StaffFoodItem.aspx">Add Food Item</a>
+                            <a class="dropdown-item" href="UpdateFoodItem.aspx">Update Food Item</a>
+                            <div class="dropdown-divider"></div>
+
+                            <h6 class="dropdown-header font-weight-bold">Promos</h6>
+                            <a class="dropdown-item" href="StaffPromo.aspx">Create Promo</a>
+                            <a class="dropdown-item" href="UpdatePromo.aspx">Update Promo</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manager</a>
+                        <div class="dropdown-menu">
+                            <h6 class="dropdown-header font-weight-bold">Restaurant</h6>
+                            <a class="dropdown-item" href="AddRestaurant.aspx">Insert Restaurant</a>
+                            <a class="dropdown-item" href="ViewAllRestaurants.aspx">View All Restaurants</a>
+                            <div class="dropdown-divider"></div>
+
+                            <h6 class="dropdown-header font-weight-bold">Food Items</h6>
+                            <a class="dropdown-item" href="ViewAllFoodItems.aspx">View Food Items</a>
+                            <div class="dropdown-divider"></div>
+
+                            <h6 class="dropdown-header font-weight-bold">Promos</h6>
+                            <a class="dropdown-item" href="ViewAllPromos.aspx">View All Promos</a>
+                            <div class="dropdown-divider"></div>
+
+                            <h6 class="dropdown-header font-weight-bold">Staff</h6>
+                            <a class="dropdown-item" href="CreateStaff.aspx">Create Staff</a>
+                            <a class="dropdown-item" href="ViewAllStaff.aspx">View All Staff</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <asp:Button ID="btnLogOut" runat="server" Text="Log Out" CssClass="btn btn-outline-light" OnClick="btnLogOut_Click" />
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+
+        <hr />
+
+        <footer class="container text-center">
+            <p>&copy;2020 CS2102 Project</p>
+        </footer>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

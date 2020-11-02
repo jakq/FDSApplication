@@ -1,0 +1,71 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="RiderSite.master.cs" Inherits="FDSApplication.RiderSite" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>CS2102 Project Group 23</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">CS2102 Project Group 23</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="RiderIndex.aspx">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="RiderProfile.aspx">Profile</a>
+                    </li>
+
+                   <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Orders</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="RiderReceiveOrder.aspx">Find Orders</a>
+                            <a class="dropdown-item" href="RiderCheckOrderDetails.aspx">View Accepted Order</a>
+                            <a class="dropdown-item" href="RiderDeliveryHistory.aspx">View Delivery History</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Schedule</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="CreateFullTimeWWS.aspx">Create Schedule</a>
+                            <a class="dropdown-item" href="RetrieveLatestMWSWWS.aspx">View Schedule</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <asp:Button ID="btnLogOut" runat="server" Text="Log Out" CssClass="btn btn-outline-light" OnClick="btnLogOut_Click" />
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+
+        <hr />
+
+        <footer class="container text-center">
+            <p>&copy;2020 CS2102 Project</p>
+        </footer>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
